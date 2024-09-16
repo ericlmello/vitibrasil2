@@ -1,11 +1,3 @@
-from flask import Flask, send_file, abort, request, jsonify, render_template_string
-import requests
-from bs4 import BeautifulSoup
-from io import BytesIO
-import logging
-import os
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -194,6 +186,25 @@ def download(file_type):
     else:
         logging.error(f"Arquivo CSV não encontrado para {file_info['name']}")
         abort(404, description="Arquivo não encontrado.")
+        
+@app.route('/', methods=['GET'])
+def home():
+    return render_template_string('''
+        <!doctype html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Bem-vindo</title>
+        </head>
+        <body>
+            <h1>Bem-vindo ao Vitibrasil API</h1>
+            <p>Por favor, vá para <a href="/login">Login</a> para acessar o sistema.</p>
+        </body>
+        </html>
+    ''')
+
+        
 
 if __name__ == '__main__':
     app.run(debug=False)
